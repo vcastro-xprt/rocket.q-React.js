@@ -16,6 +16,7 @@ header {
 
   background: url("/images/home-bg-img.svg") no-repeat top/contain;
   background-position-x: -3rem;
+  margin-left: -21rem;
 }
 
 main {
@@ -95,7 +96,4 @@ button,
   bottom: -15rem;
 }
 
-header > img,
-#logo {
-  margin-left: 16rem;
-}
+
