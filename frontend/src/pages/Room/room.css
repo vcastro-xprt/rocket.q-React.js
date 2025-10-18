@@ -1,5 +1,6 @@
-.content{
+#room {
     max-width: min(112rem, 90%);
+    margin: 0 auto;
 }
 
 #room header{
@@ -8,7 +9,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 5rem;
+
+    margin-top: 30px;
 }
 
 #room header .buttons{
@@ -24,7 +26,7 @@
     margin-left: 1rem;
     height: 2rem;
     width: 2rem;
-    margin-bottom: 3.5rem;
+    
 }
 
 #room header .buttons .button:nth-child(2){
@@ -36,12 +38,9 @@
 #room header .button:nth-child(2) img{
     width: 2rem;
     height: 2rem;
-    margin-bottom: 3.5rem;
+    
 }
 
-#room header .buttons{
-    margin-top: 4.3rem;
-}
 
 #room header #logo{
     margin-right: 2rem;

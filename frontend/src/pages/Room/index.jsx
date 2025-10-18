@@ -32,7 +32,7 @@ function Room() {
 
   return (
     <>
-      <div className="content" id="room">
+      <div id="room">
         <header>
           <a href="/" id="logo">
             <img src="/images/logo.svg" alt="Rocket-Q logo" />

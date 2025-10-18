@@ -2,7 +2,7 @@ import "./home.css";
 
 function Home() {
   return (
-    <div id="home" className="content">
+    <div className="home">
       <header>
         <a href="/">
           <img src="/images/logo.svg" alt="Rocket.q logo" id="logo" />
