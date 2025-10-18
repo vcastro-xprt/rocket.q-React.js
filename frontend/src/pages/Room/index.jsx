@@ -1,6 +1,7 @@
 import "./room.css";
 import { useState, useRef } from "react";
 import Modal from "../../components/Modal/modal";
+import QuestionCards from "../../components/Question-cards/questions";
 
 function Room() {
   // FECHA A MODAL
@@ -14,12 +15,20 @@ function Room() {
 
   // ABRE A MODAL E LIDA COM OS TEXTOS DA MODAL
 
-  const [ModalType, SetModalType] = useState (null)
+  const [ModalType, SetModalType] = useState(null);
 
-    function openModal(type){
-      SetisModalOpen(true)
-      SetModalType(type)
-    }
+  function openModal(type) {
+    SetisModalOpen(true);
+    SetModalType(type);
+  }
+
+  // DEFINE SE A QUESTÃO FOI LIDA OU NÃO
+
+  const [isRead, SetIsRead] = useState(false);
+
+  function markedAsRead() {
+    SetIsRead(true);
+  }
 
   return (
     <>
@@ -62,60 +71,17 @@ function Room() {
               </footer>
             </form>
           </section>
-
-          <section id="question">
-            <h2 className="sr-only">Perguntas da comunidade</h2>
-            <div className="questions">
-              <div className="question-wrapper">
-                <div className="question-content">
-                  <div className="user">
-                    <img src="/images/1user.svg" alt="Avatar" />
-                  </div>
-                  <div className="question">
-                    <p> </p>
-                  </div>
-                </div>
-
-                <div className="actions">
-                  <a href="#" className="check" data-id="" onClick={() => openModal("check")}>
-                    <img src="/images/check.svg" alt="Marcar como lida" />
-                    Marcar como lida
-                  </a>
-                  <a href="#" className="delete" data-id="" onClick={() => openModal("delete")}>
-                    <img src="/images/trash.svg" alt="Excluir" />
-                    Excluir
-                  </a>
-                </div>
-              </div>
-
-              <div className="question-wrapper read">
-                <div className="question-content">
-                  <div className="user">
-                    <img src="/images/1user.svg" alt="Avatar/" />
-                  </div>
-                  <div className="question">
-                    <p></p>
-                  </div>
-                </div>
-
-                <div className="actions">
-                  <p className="marked">
-                    <img src="/images/check.svg" alt="" />
-                    Pergunta lida
-                  </p>
-
-                  <a href="#" className="delete" data-id="" onClick={() => openModal("delete")}>
-                    <img src="/images/trash.svg" alt="Excluir" />
-                    Excluir
-                  </a>
-                </div>
-              </div>
-            </div>
-          </section>
+          <QuestionCards openModal={openModal}  isRead={isRead}/>
         </main>
       </div>
 
-      <Modal isModalOpen={isModalOpen} closeModal={closeModal} ModalType={ModalType}/>
+      <Modal
+        isModalOpen={isModalOpen}
+        closeModal={closeModal}
+        ModalType={ModalType}
+        markedAsRead={markedAsRead}
+          isRead={isRead}
+      />
     </>
   );
 }

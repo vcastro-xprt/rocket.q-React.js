@@ -1,7 +1,7 @@
 import "./modal.css";
 import { useState, useRef } from "react";
 
-function Modal({ isModalOpen, closeModal, ModalType}) {
+function Modal({ isModalOpen, closeModal, ModalType, markedAsRead}) {
   const inputPassword = useRef();
   const text = ModalType === "check" ? "Marcar como lida" : "Excluir"
   const color = ModalType === "check" ? "" : "red"
@@ -13,7 +13,7 @@ function Modal({ isModalOpen, closeModal, ModalType}) {
         <h2>{`${text} esta pergunta ?`}</h2>
         <p>{`Tem certeza que deseja ${text.toLocaleLowerCase()} esta \n pergunta ?`}</p>
 
-        <form action="" method="POST">
+        <form>
           <label htmlFor="password" className="sr-only">
             Digite sua senha admim
           </label>
@@ -29,7 +29,7 @@ function Modal({ isModalOpen, closeModal, ModalType}) {
             <div onClick={closeModal} className="button gray cancel">
               Cancelar
             </div>
-            <button className={color}>{`Sim, ${text.toLocaleLowerCase()}`}</button>
+            <button onClick={markedAsRead} className={color}>{`Sim, ${text.toLocaleLowerCase()}`}</button>
           </div>
         </form>
       </div>
