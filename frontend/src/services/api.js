@@ -1,6 +1,19 @@
 const API_BASE_URL = "http://localhost:3001/api";
 
 class ApiService {
+  constructor() {
+    this.token = localStorage.getItem("authToken") || null;
+  }
+
+  setToken(token) {
+    this.token = token;
+    if (token) {
+      localStorage.setItem("authToken", token);
+    } else {
+      localStorage.removeItem("authToken");
+    }
+  }
+
   async request(endpoint, options = {}) {
     const url = `${API_BASE_URL}${endpoint}`;
     const config = {
@@ -9,6 +22,10 @@ class ApiService {
       },
       ...options,
     };
+
+    if (this.token) {
+      config.headers.Authorization = `Bearer ${this.token}`;
+    }
 
     if (config.body && typeof config.body === "object") {
       config.body = JSON.stringify(config.body);
@@ -83,6 +100,29 @@ class ApiService {
 
   async getQuestion(questionId) {
     return this.request(`/questions/${questionId}`);
+  }
+
+  // Auth methods
+  async signup(email, password) {
+    const data = await this.request("/auth/signup", {
+      method: "POST",
+      body: { email, password },
+    });
+    this.setToken(data.token);
+    return data;
+  }
+
+  async login(email, password) {
+    const data = await this.request("/auth/login", {
+      method: "POST",
+      body: { email, password },
+    });
+    this.setToken(data.token);
+    return data;
+  }
+
+  logout() {
+    this.setToken(null);
   }
 }
 

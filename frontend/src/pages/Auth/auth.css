@@ -1,0 +1,76 @@
+.auth-page{
+    min-height: 100vh;
+    background: var(--background);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.auth-card{
+    background: var(--white);
+    padding: 4rem;
+    border-radius: 1rem;
+    box-shadow: 0 2rem 4rem rgba(0,0,0,0.06);
+    width: min(46rem, 90%);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.auth-card header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.auth-card header img{
+    width: 14rem;
+}
+
+.auth-card h2{
+    font-family: "Poppins", sans-serif;
+    font-size: 2.4rem;
+    color: var(--black);
+}
+
+.auth-card form{
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+}
+
+.auth-card label{
+    font-family: "Poppins", sans-serif;
+    font-size: 1.4rem;
+    color: var(--gray-dark);
+    text-align: left;
+}
+
+.auth-card input{
+    width: 100%;
+    padding: 1.3rem 1.6rem;
+    border-radius: .8rem;
+    border: .2rem solid var(--gray-light);
+    outline: none;
+}
+
+.auth-card .actions{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.auth-card .actions a{
+    color: var(--blue);
+    font-size: 1.4rem;
+    text-decoration: underline;
+}
+
+.auth-card .error{
+    color: var(--red);
+    font-size: 1.4rem;
+    font-family: "Poppins", sans-serif;
+}

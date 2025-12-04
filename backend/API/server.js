@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 import { sequelize } from "./config/database.js";
 import roomRoutes from "./routes/roomRoutes.js";
 import questionRoutes from "./routes/questionRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
+import authMiddleware from "./middleware/authMiddleware.js";
 
 dotenv.config();
 
@@ -21,8 +23,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use("/api/rooms", roomRoutes);
-app.use("/api/questions", questionRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/rooms", authMiddleware, roomRoutes);
+app.use("/api/questions", authMiddleware, questionRoutes);
 
 // Health check endpoint
 app.get("/api/health", (req, res) => {

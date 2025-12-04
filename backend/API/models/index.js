@@ -1,5 +1,6 @@
 import Room from "./Room.js";
 import Question from "./Question.js";
+import User from "./User.js";
 
 // Define associations
 Room.hasMany(Question, {
@@ -12,4 +13,4 @@ Question.belongsTo(Room, {
   as: "room",
 });
 
-export { Room, Question };
+export { Room, Question, User };

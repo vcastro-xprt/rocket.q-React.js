@@ -14,8 +14,33 @@ function Modal({
 
   if (!isModalOpen) return null;
 
-  const text = modalType === "check" ? "Marcar como lida" : "Excluir";
-  const color = modalType === "check" ? "" : "red";
+  const modalConfig = {
+    check: {
+      title: "Marcar como lida esta pergunta?",
+      description: "Tem certeza que deseja marcar como lida esta pergunta?",
+      confirmLabel: "Sim, marcar como lida",
+      color: "",
+      showQuestionPreview: true,
+    },
+    delete: {
+      title: "Excluir esta pergunta?",
+      description: "Tem certeza que deseja excluir esta pergunta?",
+      confirmLabel: "Sim, excluir",
+      color: "red",
+      showQuestionPreview: true,
+    },
+    deleteRoom: {
+      title: "Excluir esta sala?",
+      description:
+        "Tem certeza que deseja excluir esta sala?\nTodas as perguntas também serão removidas.",
+      confirmLabel: "Sim, excluir",
+      color: "red",
+      showQuestionPreview: false,
+    },
+  };
+
+  const { title, description, confirmLabel, color, showQuestionPreview } =
+    modalConfig[modalType] || modalConfig.delete;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,10 +78,10 @@ function Modal({
   return (
     <div className="modal-wrapper" onClick={handleClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <h2>{`${text} esta pergunta?`}</h2>
-        <p>{`Tem certeza que deseja ${text.toLowerCase()} esta pergunta?`}</p>
+        <h2>{title}</h2>
+        <p>{description}</p>
 
-        {selectedQuestion && (
+        {showQuestionPreview && selectedQuestion && (
           <div
             style={{
               backgroundColor: "var(--light-blue)",
@@ -113,7 +138,7 @@ function Modal({
               Cancelar
             </button>
             <button type="submit" className={color} disabled={loading}>
-              {loading ? "Processando..." : `Sim, ${text.toLowerCase()}`}
+              {loading ? "Processando..." : confirmLabel}
             </button>
           </div>
         </form>

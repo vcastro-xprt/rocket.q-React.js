@@ -1,12 +1,15 @@
 import "./room.css";
 import { useState, useRef, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Modal from "../../components/Modal/modal";
 import QuestionCards from "../../components/Question-cards/questions";
 import ApiService from "../../services/api";
+import { useAuth } from "../../contexts/AuthContext";
 
 function Room() {
   const { roomId } = useParams();
+  const navigate = useNavigate();
+  const { logout } = useAuth();
   const textAreaQuestion = useRef();
 
   // State management
@@ -80,10 +83,22 @@ function Room() {
     setSelectedQuestion(null);
   };
 
-  const handleQuestionAction = async (password) => {
-    if (!selectedQuestion) return;
-
+  const handleModalAction = async (password) => {
     try {
+      if (modalType === "deleteRoom") {
+        await ApiService.deleteRoom(roomId, password);
+        closeModal();
+        navigate("/", { replace: true });
+        return;
+      }
+
+      if (
+        !selectedQuestion &&
+        (modalType === "check" || modalType === "delete")
+      ) {
+        throw new Error("Nenhuma pergunta selecionada");
+      }
+
       if (modalType === "check") {
         await ApiService.markQuestionAsRead(selectedQuestion.id, password);
         setQuestions((prev) =>
@@ -163,10 +178,30 @@ function Room() {
               #{roomId}
               <img src="/images/copy.svg" alt="Copiar número da sala" />
             </div>
-            <Link to="/create-pass" className="button">
+            <button
+              type="button"
+              className="button red delete-room-btn"
+              onClick={() => openModal("deleteRoom")}
+              title="Excluir sala"
+            >
+              <img src="/images/trash-white.svg" alt="Excluir sala" />
+              Excluir Sala
+            </button>
+            <Link to="/create-pass" className="button create-room-btn">
               <img src="/images/users-white.svg" alt="Criar uma sala" />
               Criar Sala
             </Link>
+            <button
+              type="button"
+              className="button gray"
+              onClick={() => {
+                logout();
+                navigate("/login", { replace: true });
+              }}
+              title="Sair"
+            >
+              Sair
+            </button>
           </div>
         </header>
 
@@ -206,7 +241,7 @@ function Room() {
         closeModal={closeModal}
         modalType={modalType}
         selectedQuestion={selectedQuestion}
-        onConfirm={handleQuestionAction}
+        onConfirm={handleModalAction}
       />
     </>
   );

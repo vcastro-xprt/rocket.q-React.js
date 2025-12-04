@@ -15,35 +15,43 @@
 
 #room header .buttons{
     display: flex;
+    gap: .8rem;
+    flex-wrap: wrap;
 }
-
-#room header .buttons .button:nth-child(1){
-    margin-right: .8rem;
-    padding: 1.3rem 1.6rem;
-}
-
-#room header .buttons .button:nth-child(1) img{
-    margin-left: 1rem;
-    height: 2rem;
-    width: 2rem;
-    
-}
-
-#room header .buttons .button:nth-child(2){
-    flex-shrink: 0;
-    white-space: nowrap;
-    padding: 1.3rem 3.2rem;
-   }
-
-#room header .button:nth-child(2) img{
-    width: 2rem;
-    height: 2rem;
-    
-}
-
 
 #room header #logo{
     margin-right: 2rem;
+}
+
+#room header .buttons .button{
+    padding: 1.3rem 1.6rem;
+}
+
+#room header .buttons .delete-room-btn{
+    padding: 1.3rem 2.4rem;
+    white-space: nowrap;
+}
+
+#room header .buttons #room-id img{
+    margin-left: 1rem;
+    height: 2rem;
+    width: 2rem;
+}
+
+#room header .buttons .delete-room-btn img{
+    width: 2rem;
+    height: 2rem;
+}
+
+#room header .buttons .create-room-btn{
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: 1.3rem 3.2rem;
+}
+
+#room header .buttons .create-room-btn img{
+    width: 2rem;
+    height: 2rem;
 }
 
 /* Question Form CSS */

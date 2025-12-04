@@ -1,5 +1,5 @@
 .home {
-  height: 100%;
+  height: calc(100% - 120px);
 
   display: grid;
   grid-template-columns: 60% 40%;
@@ -7,11 +7,6 @@
   grid-template-areas:
     "header header"
     "left right";
-}
-
-.home header {
-  grid-area: header;
-  padding: 30px 10px;
 }
 
 .home #bg {
@@ -45,9 +40,9 @@
   outline: none;
 }
 
-.home input,
-.home button,
-.home .button {
+.home .container input,
+.home .container button,
+.home .container .button {
   margin-bottom: 1.8rem;
   width: 100%;
 }
