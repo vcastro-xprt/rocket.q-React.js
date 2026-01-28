@@ -18,6 +18,14 @@ const Room = sequelize.define(
         len: [1, 255],
       },
     },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: "users",
+        key: "id",
+      },
+    },
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false,
@@ -38,8 +46,14 @@ const Room = sequelize.define(
           room.password = await bcrypt.hash(room.password, salt);
         }
       },
+      beforeUpdate: async (room) => {
+        if (room.changed("password")) {
+          const salt = await bcrypt.genSalt(10);
+          room.password = await bcrypt.hash(room.password, salt);
+        }
+      },
     },
-  }
+  },
 );
 
 // Instance method to check password

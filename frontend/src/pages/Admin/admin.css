@@ -1,0 +1,68 @@
+.admin-page {
+  max-width: min(120rem, 90%);
+  margin: 0 auto;
+}
+
+.admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 2rem 0;
+}
+
+.admin-header h2 {
+  font-family: "Poppins", sans-serif;
+  font-size: 2.4rem;
+  color: var(--black);
+}
+
+.admin-card {
+  background: var(--white);
+  border-radius: 0.8rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 0.1rem solid var(--gray-light);
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-table th,
+.admin-table td {
+  text-align: left;
+  padding: 1rem;
+  border-bottom: 0.1rem solid var(--gray-light);
+  font-size: 1.4rem;
+  color: var(--gray-dark);
+}
+
+.admin-table th {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+}
+
+.admin-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.admin-form input,
+.admin-form select {
+  border: 0.2rem solid var(--gray-blue);
+  padding: 0 1rem;
+  border-radius: 0.8rem;
+  height: 4.4rem;
+}
+
+.admin-actions {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.admin-actions button {
+  padding: 0.6rem 1.2rem;
+  height: auto;
+}

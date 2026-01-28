@@ -1,14 +1,11 @@
 import { Link } from "react-router-dom";
+import Header from "../../components/Header/Header";
 import "../Home/home.css";
 
 function NotFound() {
   return (
     <div className="home">
-      <header>
-        <Link to="/">
-          <img src="/images/logo.svg" alt="Rocket.q logo" id="logo" />
-        </Link>
-      </header>
+      <Header />
       <div id="bg">
         <div className="ball top"></div>
         <div className="ball bottom"></div>

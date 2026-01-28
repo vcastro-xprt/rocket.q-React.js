@@ -121,6 +121,72 @@ class ApiService {
     return data;
   }
 
+  async getProfile() {
+    const data = await this.request("/auth/me");
+    return data;
+  }
+
+  async updatePassword(currentPassword, newPassword) {
+    return this.request("/auth/password", {
+      method: "PUT",
+      body: { currentPassword, newPassword },
+    });
+  }
+
+  // Admin users
+  async adminListUsers() {
+    return this.request("/admin/users");
+  }
+
+  async adminCreateUser(payload) {
+    return this.request("/admin/users", {
+      method: "POST",
+      body: payload,
+    });
+  }
+
+  async adminUpdateUser(id, payload) {
+    return this.request(`/admin/users/${id}`, {
+      method: "PUT",
+      body: payload,
+    });
+  }
+
+  async adminDeleteUser(id) {
+    return this.request(`/admin/users/${id}`, {
+      method: "DELETE",
+    });
+  }
+
+  // Admin rooms
+  async adminListRooms() {
+    return this.request("/admin/rooms");
+  }
+
+  async adminCreateRoom(payload) {
+    return this.request("/admin/rooms", {
+      method: "POST",
+      body: payload,
+    });
+  }
+
+  async adminUpdateRoom(id, payload) {
+    return this.request(`/admin/rooms/${id}`, {
+      method: "PUT",
+      body: payload,
+    });
+  }
+
+  async adminDeleteRoom(id) {
+    return this.request(`/admin/rooms/${id}`, {
+      method: "DELETE",
+    });
+  }
+
+  async adminGetRoom(id) {
+    return this.request(`/admin/rooms/${id}`);
+  }
+
   logout() {
     this.setToken(null);
   }

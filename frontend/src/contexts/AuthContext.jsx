@@ -12,10 +12,24 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const storedToken = localStorage.getItem("authToken");
-    if (storedToken) {
-      ApiService.setToken(storedToken);
-    }
-    setTokenChecked(true);
+    const loadProfile = async () => {
+      if (storedToken) {
+        ApiService.setToken(storedToken);
+        try {
+          const data = await ApiService.getProfile();
+          setUser(data.user);
+          localStorage.setItem("authUser", JSON.stringify(data.user));
+        } catch (error) {
+          console.error("Failed to load profile:", error);
+          ApiService.logout();
+          setUser(null);
+          localStorage.removeItem("authUser");
+        }
+      }
+      setTokenChecked(true);
+    };
+
+    loadProfile();
   }, []);
 
   const login = async (email, password) => {
@@ -47,7 +61,7 @@ export function AuthProvider({ children }) {
       logout,
       tokenChecked,
     }),
-    [user, tokenChecked]
+    [user, tokenChecked],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

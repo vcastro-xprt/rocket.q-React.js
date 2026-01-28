@@ -27,6 +27,11 @@ const User = sequelize.define(
         len: [6, 255],
       },
     },
+    role: {
+      type: DataTypes.ENUM("admin", "user"),
+      allowNull: false,
+      defaultValue: "user",
+    },
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false,
@@ -54,7 +59,7 @@ const User = sequelize.define(
         }
       },
     },
-  }
+  },
 );
 
 User.prototype.checkPassword = async function (password) {

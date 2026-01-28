@@ -9,6 +9,10 @@
     "left right";
 }
 
+.home .app-header {
+  grid-area: header;
+}
+
 .home #bg {
   grid-area: left;
   background: url("/images/home-bg-img.svg") no-repeat top/contain;

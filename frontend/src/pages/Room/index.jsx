@@ -4,12 +4,11 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import Modal from "../../components/Modal/modal";
 import QuestionCards from "../../components/Question-cards/questions";
 import ApiService from "../../services/api";
-import { useAuth } from "../../contexts/AuthContext";
+import Header from "../../components/Header/Header";
 
 function Room() {
   const { roomId } = useParams();
   const navigate = useNavigate();
-  const { logout } = useAuth();
   const textAreaQuestion = useRef();
 
   // State management
@@ -103,13 +102,13 @@ function Room() {
         await ApiService.markQuestionAsRead(selectedQuestion.id, password);
         setQuestions((prev) =>
           prev.map((q) =>
-            q.id === selectedQuestion.id ? { ...q, isRead: true } : q
-          )
+            q.id === selectedQuestion.id ? { ...q, isRead: true } : q,
+          ),
         );
       } else if (modalType === "delete") {
         await ApiService.deleteQuestion(selectedQuestion.id, password);
         setQuestions((prev) =>
-          prev.filter((q) => q.id !== selectedQuestion.id)
+          prev.filter((q) => q.id !== selectedQuestion.id),
         );
       }
       closeModal();
@@ -122,11 +121,7 @@ function Room() {
   if (loading) {
     return (
       <div id="room">
-        <header>
-          <Link to="/" id="logo">
-            <img src="/images/logo.svg" alt="Rocket-Q logo" />
-          </Link>
-        </header>
+        <Header />
         <main style={{ textAlign: "center", marginTop: "5rem" }}>
           <p>Carregando sala...</p>
         </main>
@@ -137,11 +132,7 @@ function Room() {
   if (!roomExists) {
     return (
       <div id="room">
-        <header>
-          <Link to="/" id="logo">
-            <img src="/images/logo.svg" alt="Rocket-Q logo" />
-          </Link>
-        </header>
+        <Header />
         <main style={{ textAlign: "center", marginTop: "5rem" }}>
           <p
             style={{
@@ -163,47 +154,35 @@ function Room() {
   return (
     <>
       <div id="room">
-        <header>
-          <Link to="/" id="logo">
-            <img src="/images/logo.svg" alt="Rocket-Q logo" />
-          </Link>
-          <div className="buttons">
-            <div
-              className="button outlined"
-              id="room-id"
-              onClick={copyRoomId}
-              style={{ cursor: "pointer" }}
-              title="Clique para copiar o código da sala"
-            >
-              #{roomId}
-              <img src="/images/copy.svg" alt="Copiar número da sala" />
+        <Header
+          actions={
+            <div className="buttons">
+              <div
+                className="button outlined"
+                id="room-id"
+                onClick={copyRoomId}
+                style={{ cursor: "pointer" }}
+                title="Clique para copiar o código da sala"
+              >
+                #{roomId}
+                <img src="/images/copy.svg" alt="Copiar número da sala" />
+              </div>
+              <button
+                type="button"
+                className="button red delete-room-btn"
+                onClick={() => openModal("deleteRoom")}
+                title="Excluir sala"
+              >
+                <img src="/images/trash-white.svg" alt="Excluir sala" />
+                Excluir Sala
+              </button>
+              <Link to="/create-pass" className="button create-room-btn">
+                <img src="/images/users-white.svg" alt="Criar uma sala" />
+                Criar Sala
+              </Link>
             </div>
-            <button
-              type="button"
-              className="button red delete-room-btn"
-              onClick={() => openModal("deleteRoom")}
-              title="Excluir sala"
-            >
-              <img src="/images/trash-white.svg" alt="Excluir sala" />
-              Excluir Sala
-            </button>
-            <Link to="/create-pass" className="button create-room-btn">
-              <img src="/images/users-white.svg" alt="Criar uma sala" />
-              Criar Sala
-            </Link>
-            <button
-              type="button"
-              className="button gray"
-              onClick={() => {
-                logout();
-                navigate("/login", { replace: true });
-              }}
-              title="Sair"
-            >
-              Sair
-            </button>
-          </div>
-        </header>
+          }
+        />
 
         <main id="question-form">
           <section>

@@ -1,5 +1,6 @@
 import "./modal.css";
 import { useState, useRef } from "react";
+import { useAuth } from "../../contexts/AuthContext";
 
 function Modal({
   isModalOpen,
@@ -11,6 +12,8 @@ function Modal({
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const inputPassword = useRef();
+  const { user } = useAuth();
+  const requiresPassword = user?.role !== "admin";
 
   if (!isModalOpen) return null;
 
@@ -44,9 +47,9 @@ function Modal({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const password = inputPassword.current.value.trim();
+    const password = inputPassword.current?.value?.trim() || "";
 
-    if (!password) {
+    if (requiresPassword && !password) {
       setError("Por favor, digite a senha da sala");
       return;
     }
@@ -57,7 +60,9 @@ function Modal({
     try {
       await onConfirm(password);
       // Reset form
-      inputPassword.current.value = "";
+      if (inputPassword.current) {
+        inputPassword.current.value = "";
+      }
     } catch (error) {
       console.error("Error in modal action:", error);
       setError(error.message || "Senha incorreta");
@@ -107,14 +112,16 @@ function Modal({
           <label htmlFor="password" className="sr-only">
             Digite sua senha admin
           </label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            placeholder="Digite sua senha"
-            ref={inputPassword}
-            disabled={loading}
-          />
+          {requiresPassword && (
+            <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Digite sua senha"
+              ref={inputPassword}
+              disabled={loading}
+            />
+          )}
 
           {error && (
             <p

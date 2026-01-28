@@ -67,7 +67,7 @@ class QuestionController {
       const { id } = req.params;
       const { password } = req.body;
 
-      if (!password) {
+      if (!password && req.user.role !== "admin") {
         return res.status(400).json({ error: "Password is required" });
       }
 
@@ -85,10 +85,12 @@ class QuestionController {
       }
 
       // Verify room password
-      const isValidPassword = await question.room.checkPassword(password);
+      if (req.user.role !== "admin") {
+        const isValidPassword = await question.room.checkPassword(password);
 
-      if (!isValidPassword) {
-        return res.status(401).json({ error: "Invalid password" });
+        if (!isValidPassword) {
+          return res.status(401).json({ error: "Invalid password" });
+        }
       }
 
       question.isRead = true;
@@ -114,7 +116,7 @@ class QuestionController {
       const { id } = req.params;
       const { password } = req.body;
 
-      if (!password) {
+      if (!password && req.user.role !== "admin") {
         return res.status(400).json({ error: "Password is required" });
       }
 
@@ -132,10 +134,12 @@ class QuestionController {
       }
 
       // Verify room password
-      const isValidPassword = await question.room.checkPassword(password);
+      if (req.user.role !== "admin") {
+        const isValidPassword = await question.room.checkPassword(password);
 
-      if (!isValidPassword) {
-        return res.status(401).json({ error: "Invalid password" });
+        if (!isValidPassword) {
+          return res.status(401).json({ error: "Invalid password" });
+        }
       }
 
       await question.destroy();

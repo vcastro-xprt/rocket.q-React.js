@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
+import { User } from "../models/index.js";
 
-const authMiddleware = (req, res, next) => {
+const authMiddleware = async (req, res, next) => {
   const authHeader = req.headers.authorization;
   const token = authHeader?.startsWith("Bearer ")
     ? authHeader.split(" ")[1]
@@ -12,7 +13,13 @@ const authMiddleware = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET || "secret");
-    req.user = { id: decoded.userId };
+    const user = await User.findByPk(decoded.userId);
+
+    if (!user) {
+      return res.status(401).json({ error: "User not found" });
+    }
+
+    req.user = { id: user.id, role: user.role, email: user.email };
     next();
   } catch (error) {
     console.error("JWT verification failed:", error);

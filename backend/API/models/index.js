@@ -13,4 +13,14 @@ Question.belongsTo(Room, {
   as: "room",
 });
 
+User.hasMany(Room, {
+  foreignKey: "userId",
+  as: "rooms",
+});
+
+Room.belongsTo(User, {
+  foreignKey: "userId",
+  as: "owner",
+});
+
 export { Room, Question, User };

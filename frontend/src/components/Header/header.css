@@ -1,0 +1,75 @@
+.app-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px 10px;
+}
+
+.app-header .logo img {
+  width: 16.7rem;
+  height: 4.383rem;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-menu {
+  position: relative;
+}
+
+.menu-trigger {
+  background: var(--white);
+  border: 0.2rem solid var(--gray-blue);
+  color: var(--gray-dark);
+  padding: 0.8rem 1.2rem;
+  border-radius: 0.8rem;
+  font-family: "Poppins", sans-serif;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+}
+
+.menu-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.6rem);
+  background: var(--white);
+  border: 0.1rem solid var(--gray-light);
+  border-radius: 0.8rem;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+  min-width: 20rem;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.menu-dropdown a,
+.menu-dropdown button {
+  padding: 1rem 1.4rem;
+  font-size: 1.4rem;
+  color: var(--gray-dark);
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+  justify-content: flex-start;
+}
+
+.menu-dropdown a:hover,
+.menu-dropdown button:hover {
+  background: var(--gray-light);
+}

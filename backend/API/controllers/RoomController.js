@@ -1,16 +1,18 @@
-import { Room, Question } from "../models/index.js";
+import { Room, Question, User } from "../models/index.js";
 
 class RoomController {
   // Create a new room
   async create(req, res) {
     try {
-      const { password } = req.body;
+      const { password, userId } = req.body;
 
       if (!password) {
         return res.status(400).json({ error: "Password is required" });
       }
 
-      const room = await Room.create({ password });
+      const ownerId =
+        req.user.role === "admin" && userId ? userId : req.user.id;
+      const room = await Room.create({ password, userId: ownerId });
 
       res.status(201).json({
         id: room.id,
@@ -27,7 +29,11 @@ class RoomController {
     try {
       const { roomId, password } = req.body;
 
-      if (!roomId || !password) {
+      if (!roomId) {
+        return res.status(400).json({ error: "Room ID is required" });
+      }
+
+      if (!password && req.user.role !== "admin") {
         return res
           .status(400)
           .json({ error: "Room ID and password are required" });
@@ -39,10 +45,12 @@ class RoomController {
         return res.status(404).json({ error: "Room not found" });
       }
 
-      const isValidPassword = await room.checkPassword(password);
+      if (req.user.role !== "admin") {
+        const isValidPassword = await room.checkPassword(password);
 
-      if (!isValidPassword) {
-        return res.status(401).json({ error: "Invalid password" });
+        if (!isValidPassword) {
+          return res.status(401).json({ error: "Invalid password" });
+        }
       }
 
       res.json({
@@ -67,6 +75,11 @@ class RoomController {
             as: "questions",
             order: [["createdAt", "DESC"]],
           },
+          {
+            model: User,
+            as: "owner",
+            attributes: ["id", "email", "role"],
+          },
         ],
       });
 
@@ -77,6 +90,7 @@ class RoomController {
       res.json({
         id: room.id,
         createdAt: room.createdAt,
+        owner: room.owner,
         questions: room.questions,
       });
     } catch (error) {
@@ -91,7 +105,7 @@ class RoomController {
       const { id } = req.params;
       const { password } = req.body;
 
-      if (!password) {
+      if (!password && req.user.role !== "admin") {
         return res.status(400).json({ error: "Password is required" });
       }
 
@@ -101,10 +115,12 @@ class RoomController {
         return res.status(404).json({ error: "Room not found" });
       }
 
-      const isValidPassword = await room.checkPassword(password);
+      if (req.user.role !== "admin") {
+        const isValidPassword = await room.checkPassword(password);
 
-      if (!isValidPassword) {
-        return res.status(401).json({ error: "Invalid password" });
+        if (!isValidPassword) {
+          return res.status(401).json({ error: "Invalid password" });
+        }
       }
 
       // Delete all questions in the room first

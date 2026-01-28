@@ -6,6 +6,8 @@ import roomRoutes from "./routes/roomRoutes.js";
 import questionRoutes from "./routes/questionRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import authMiddleware from "./middleware/authMiddleware.js";
+import adminUserRoutes from "./routes/adminUserRoutes.js";
+import adminRoomRoutes from "./routes/adminRoomRoutes.js";
 
 dotenv.config();
 
@@ -17,7 +19,7 @@ app.use(
   cors({
     origin: process.env.FRONTEND_URL || "http://localhost:5173",
     credentials: true,
-  })
+  }),
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -26,6 +28,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", authRoutes);
 app.use("/api/rooms", authMiddleware, roomRoutes);
 app.use("/api/questions", authMiddleware, questionRoutes);
+app.use("/api/admin/users", authMiddleware, adminUserRoutes);
+app.use("/api/admin/rooms", authMiddleware, adminRoomRoutes);
 
 // Health check endpoint
 app.get("/api/health", (req, res) => {
